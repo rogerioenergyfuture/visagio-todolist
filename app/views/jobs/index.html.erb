@@ -2,6 +2,31 @@
 
 <h1>Tarefas</h1>
 
+ <!-- Left side -->
+<div class="level-left">
+ <p class="level-item">   
+  <%= search_form_for @q do |f| %>  
+    
+  <%= f.label :name_cont %>
+  <%= f.search_field :name_cont %>  
+      
+  <%= f.select :combinator, [['E','and'],['OU','or']] %></br>
+
+  <%= f.label :status_eq %>
+  <%= f.select :status_eq, Job.statuses.to_a.map { |w| [w[0].humanize, w[1]] },{:include_blank=> "Selecione o Status"} %>   
+
+  <%= f.submit %>
+  
+<% end %>         
+ </p>         
+      
+</div>
+
+
+
+
+
+
 <table>
   <thead>
     <tr>
