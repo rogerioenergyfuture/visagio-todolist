@@ -1,9 +1,10 @@
 class TodosController < ApplicationController
   before_action :set_todo, only: %i[ show edit update destroy ]
+  before_action :set_todos, only: %i[ index]
 
   # GET /todos or /todos.json
   def index
-    @todos = Todo.all
+    
   end
 
   # GET /todos/1 or /todos/1.json
@@ -62,6 +63,11 @@ class TodosController < ApplicationController
     def set_todo
       @todo = Todo.find(params[:id])
     end
+
+    def set_todos
+      @q = Todo.ransack(params[:q].try(:merge, m: params[:combinator]))
+      @todos = @q.result.all.paginate(:page => params[:page], :per_page => 10)
+    end 
 
     # Only allow a list of trusted parameters through.
     def todo_params

@@ -2,11 +2,31 @@
 
 <h1>Todo List</h1>
 
+ <!-- Left side -->
+<div class="level-left">
+ <p class="level-item">   
+  <%= search_form_for @q do |f| %>  
+    
+  <%= f.label :name_cont %>
+  <%= f.search_field :name_cont %>  
+      
+  <%= f.select :combinator, [['E','and'],['OU','or']] %></br>
+
+  <%= f.label :status_eq %>
+  <%= f.select :status_eq, Todo.statuses.to_a.map { |w| [w[0].humanize, w[1]] },{:include_blank=> "Selecione o Status"} %>   
+
+  <%= f.submit %>
+  
+<% end %>         
+ </p>         
+      
+</div>
+
 <table>
   <thead>
     <tr>
-      <th>Nome</th>
-      <th>Status</th>
+      <th><%= sort_link(@q, :name) %></th>
+      <th><%= sort_link(@q, :status) %></th>
       <th>&nbsp;&nbsp;Tarefas</th>
       <th>&nbsp;&nbsp;Ações</th>
     </tr>
@@ -25,7 +45,7 @@
     <% end %>
   </tbody>
 </table>
-
+ <%= will_paginate @todos %>
 <br>
 <p>
 <%= link_to 'Nova TodoList', new_todo_path %>
